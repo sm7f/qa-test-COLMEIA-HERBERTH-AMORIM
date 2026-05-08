@@ -4,12 +4,13 @@
   "version": "1.0.0",
   "description": "Suite Cypress parametrizada para o teste tecnico de QA.",
   "scripts": {
-    "cy:open": "cypress open",
-    "cy:run": "cypress run",
-    "test:integration": "cypress run --spec 'cypress/e2e/integration/**/*.cy.js'",
-    "test:regression": "cypress run --spec 'cypress/e2e/regression/**/*.cy.js'",
-    "test:defects": "cypress run --spec 'cypress/e2e/regression/known-defects.cy.js'",
-    "test:all": "cypress run --spec 'cypress/e2e/**/*.cy.js'"
+    "cy:open": "./scripts/cypress-local.sh open",
+    "cy:verify": "./scripts/cypress-local.sh verify",
+    "cy:run": "./scripts/cypress-local.sh run",
+    "test:integration": "./scripts/cypress-local.sh run --spec 'cypress/e2e/integration/**/*.cy.js'",
+    "test:regression": "./scripts/cypress-local.sh run --spec 'cypress/e2e/regression/critical-flows.cy.js'",
+    "test:defects": "./scripts/cypress-local.sh run --spec 'cypress/e2e/regression/known-defects.cy.js'",
+    "test:all": "./scripts/cypress-local.sh run --spec 'cypress/e2e/**/*.cy.js'"
   },
   "devDependencies": {
     "cypress": "^15.14.2"

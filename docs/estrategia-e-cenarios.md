@@ -90,10 +90,11 @@ Objetivos:
 - Evidencia tecnica: o handler de submit mostra modal com texto `Seu login está incorreto, quer continuar?`
 - Impacto: contradicao funcional no principal fluxo do sistema
 
-### F-03 Pagina Colmeia Forms em branco
+### F-03 Modulo Colmeia Forms sem evidencia funcional
 
-- Evidencia tecnica: componente renderiza sem conteudo
-- Impacto: funcionalidade indisponivel
+- Evidencia tecnica: o componente associado no bundle nao possui template funcional
+- Observacao: a assert E2E atual nao falhou porque a shell do dashboard continua renderizando header e menu
+- Impacto: funcionalidade sem comportamento util identificado na exploracao
 
 ### F-04 Arquivar e apagar usam a mesma acao
 
@@ -128,7 +129,7 @@ Objetivos:
 | RG-03 | Regressao | Easter Eggs | Confirmar exposicao da rota publica | Media | `cypress/e2e/regression/critical-flows.cy.js` | Implementado |
 | RG-04 | Regressao | Controle de acesso | Esperar redirecionamento para login sem sessao | Alta | `cypress/e2e/regression/known-defects.cy.js` | Implementado |
 | RG-05 | Regressao | Login sem contradicao | Esperar sucesso limpo no login valido | Alta | `cypress/e2e/regression/known-defects.cy.js` | Implementado |
-| RG-06 | Regressao | Colmeia Forms | Esperar conteudo visivel na pagina | Alta | `cypress/e2e/regression/known-defects.cy.js` | Implementado |
+| RG-06 | Regressao | Colmeia Forms | Verificar se ha conteudo funcional util no modulo | Alta | `cypress/e2e/regression/known-defects.cy.js` | Implementado |
 | RG-07 | Regressao | Arquivamento | Esperar arquivamento sem exclusao | Alta | `cypress/e2e/regression/known-defects.cy.js` | Implementado |
 | RG-08 | Regressao | Validacao de item | Impedir cadastro em branco | Alta | `cypress/e2e/regression/known-defects.cy.js` | Implementado |
 | RG-09 | Regressao | Estado vazio | Reexibir lista vazia apos exclusao total | Media | `cypress/e2e/regression/known-defects.cy.js` | Implementado |
@@ -140,17 +141,32 @@ Objetivos:
 - instalacao de `cypress@15.14.2`
 - download do binario
 - configuracao da suite com `baseUrl` real
+- `verify` corrigido e aprovado
+- integracao `3/3` passando
+- regressao critica `4/4` passando
+- suite de defeitos executada com `5/6` falhando
 
-### Bloqueio de ambiente
+### Correcao de ambiente
 
-Ao rodar `npx cypress verify`, o runner falhou com:
+Na primeira execucao, `npx cypress verify` falhou com:
 
 ```txt
 /Cypress/Cypress: bad option: --no-sandbox
 /Cypress/Cypress: bad option: --smoke-test
 ```
 
+Diagnostico:
+
+- o ambiente estava com `ELECTRON_RUN_AS_NODE=1`
+- isso fazia o binario do Cypress rodar em modo Node e rejeitar flags do Electron
+
+Correcao:
+
+- criacao do wrapper [scripts/cypress-local.sh](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/scripts/cypress-local.sh:1)
+- `unset ELECTRON_RUN_AS_NODE`
+- cache local configurado em `.cache/Cypress`
+
 Conclusao:
 
-- a implementacao da suite foi concluida
-- a execucao local do binario Cypress ficou bloqueada por incompatibilidade do runner com o runtime atual
+- o runner foi corrigido
+- a suite passou a executar normalmente
