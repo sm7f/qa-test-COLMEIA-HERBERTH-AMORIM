@@ -128,8 +128,6 @@ Evidências vinculadas:
 
 ![Easter Eggs - Página pública](./docs/evidencias/easter-eggs.cy.js/easter-eggs-pagina-publica.png)
 
-![Easter Eggs - Categorias e contagens](./docs/evidencias/easter-eggs.cy.js/easter-eggs-categorias-e-contagens.png)
-
 ## Outros testes separados
 
 Além da trilha principal derivada do Easter Eggs, a suíte mantém trilhas separadas para:
