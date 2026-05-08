@@ -533,3 +533,9 @@ Separação adotada:
 | RG-04 | `critical-flows.cy.js` | Easter Eggs pública | Conteúdo da rota pública visível | Página exibida | Passou |
 | OT-01 | `known-defects.cy.js` | Dashboard sem login | Redirecionamento para `/` | Permaneceu em `/dashboard/campanha/bancos-de-dados` | Falhou |
 | OT-02 | `known-defects.cy.js` | Easter Eggs não pública | Redirecionamento para `/` | Permaneceu em `/easter-eggs` | Falhou |
+
+## Copyright
+
+Copyright (c) 2026 sm7f. Todos os direitos reservados.
+
+O aviso completo está em [COPYRIGHT.md](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/COPYRIGHT.md:1).
