@@ -1,55 +1,84 @@
 # Suíte Cypress - Colmeia QA
 
-Suíte criada com base nos insumos iniciais do desafio e exploração controlada do alvo real `https://teste-colmeia-qa.colmeia-corp.com/`.
+Suíte criada com base nos insumos iniciais do desafio e na exploração controlada do alvo real `https://teste-colmeia-qa.colmeia-corp.com/`.
 
-## Testes da página Easter Eggs
+## Testes principais derivados da página Easter Eggs
 
-A página `/easter-eggs` passou a ser o primeiro foco da suíte porque ela expõe publicamente a lista interna de defeitos do sistema.
+A página `/easter-eggs` foi tratada como a principal fonte de cenários da entrega. Ela expõe publicamente uma lista interna de defeitos, então a estratégia adotada foi:
 
-Arquivo principal:
+1. validar a própria página `easter-eggs` como fonte de pistas
+2. transformar cada item listado nela em um cenário automatizado de regressão
+3. separar esses cenários dos demais testes feitos fora dessa lista
 
+Arquivos principais:
+
+- [cypress/e2e/regression/easter-eggs-derived.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/regression/easter-eggs-derived.cy.js:1)
 - [cypress/e2e/regression/easter-eggs.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/regression/easter-eggs.cy.js:1)
 
-Comando de execução:
+Comandos:
 
 ```bash
+npm run test:easter-eggs-derived
 npm run test:easter-eggs
 ```
 
 Resultado executado:
 
+- `test:easter-eggs-derived`: `0/8` passando e `8/8` falhando como evidência direta dos defeitos listados na página
 - `test:easter-eggs`: `3/3` passando e `2` screenshots gerados em `docs/evidencias/easter-eggs.cy.js/`
 
-Cobertura aplicada:
+Cobertura principal derivada do Easter Eggs:
+
+- `Login`: `Esqueceu sua senha?` deveria ser navegável ou acionável
+- `Login`: login válido não deveria mostrar modal contraditório
+- `Banco de Dados`: a lupa deveria executar a busca
+- `Banco de Dados`: o estado vazio deveria reaparecer após excluir todos os itens
+- `Banco de Dados`: o refresh não deveria apagar a lista
+- `Banco de Dados`: arquivar deveria ser diferente de apagar
+- `Banco de Dados`: item em branco não deveria ser persistido
+- `Colmeia Forms`: a rota deveria renderizar conteúdo funcional
+
+Cobertura da página fonte:
 
 - valida que a rota `/easter-eggs` é pública e responde sem redirecionamento
-- valida título, mensagem introdutória e texto de contexto da página
-- valida as três categorias expostas: `Login`, `Banco de Dados` e `Colmeia Forms`
-- valida a quantidade de itens por categoria: `2`, `5` e `1`
-- valida os textos dos defeitos listados em cada área
+- valida título, mensagem introdutória e texto de contexto
+- valida as categorias `Login`, `Banco de Dados` e `Colmeia Forms`
+- valida a contagem de itens por categoria: `2`, `5` e `1`
+- valida os textos de defeitos exibidos na página
 
 Evidências vinculadas:
 
-- captura da página pública: [cypress/e2e/regression/easter-eggs.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/regression/easter-eggs.cy.js:22)
-- captura das categorias e contagens: [cypress/e2e/regression/easter-eggs.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/regression/easter-eggs.cy.js:30)
-- screenshot da página pública: [easter-eggs-pagina-publica.png](./docs/evidencias/easter-eggs.cy.js/easter-eggs-pagina-publica.png)
-- screenshot das categorias e contagens: [easter-eggs-categorias-e-contagens.png](./docs/evidencias/easter-eggs.cy.js/easter-eggs-categorias-e-contagens.png)
+- origem das pistas: [cypress/e2e/regression/easter-eggs.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/regression/easter-eggs.cy.js:1)
+- cenários derivados: [cypress/e2e/regression/easter-eggs-derived.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/regression/easter-eggs-derived.cy.js:1)
+- screenshots da página fonte:
+  - [easter-eggs-pagina-publica.png](./docs/evidencias/easter-eggs.cy.js/easter-eggs-pagina-publica.png)
+  - [easter-eggs-categorias-e-contagens.png](./docs/evidencias/easter-eggs.cy.js/easter-eggs-categorias-e-contagens.png)
+- screenshots automáticos das falhas derivadas: `cypress/screenshots/easter-eggs-derived.cy.js/`
 
 ![Easter Eggs - Página pública](./docs/evidencias/easter-eggs.cy.js/easter-eggs-pagina-publica.png)
 
 ![Easter Eggs - Categorias e contagens](./docs/evidencias/easter-eggs.cy.js/easter-eggs-categorias-e-contagens.png)
 
+## Outros testes separados
+
+Além da trilha principal derivada do Easter Eggs, a suíte mantém trilhas separadas para:
+
+- integração do fluxo de login e roteamento
+- regressão crítica dos fluxos que continuam funcionais
+- defeitos complementares fora da lista do Easter Eggs
+- evidências visuais curadas para achados importantes
+
 ## Resumo da entrega
 
-O trabalho entregue cobre cinco frentes:
+O trabalho cobre:
 
 - mapeamento técnico do alvo real
 - verificação de segurança do fluxo de login e autenticação
-- definição de cenários de teste priorizados
-- implementação da suíte Cypress
-- documentação objetiva dos achados encontrados
+- transformação da página Easter Eggs em suíte principal de regressão
+- implementação de suítes complementares separadas
+- documentação objetiva dos achados e das evidências
 
-O alvo inspecionado é um front Angular `21.1.3`, servido como site estático. Pela análise do HTML e do bundle principal, foram identificadas as rotas:
+O alvo inspecionado é um front Angular `21.1.3`, servido como site estático. As rotas identificadas foram:
 
 - `/`
 - `/dashboard`
@@ -61,15 +90,17 @@ O alvo inspecionado é um front Angular `21.1.3`, servido como site estático. P
 
 Falhas reais identificadas no comportamento do site:
 
-1. a autenticação ocorre no cliente, com credenciais expostas no bundle
-2. usuário não autenticado consegue acessar `/dashboard/campanha/bancos-de-dados`
-3. login válido abre um modal com mensagem contraditória: `Seu login está incorreto, quer continuar?`
-4. não foi encontrada evidência de sessão, token ou chamada de autenticação no fluxo inspecionado
-5. o módulo `Colmeia Forms` não apresentou evidência funcional útil no fluxo explorado
+1. o link `Esqueceu sua senha?` não possui ação útil
+2. login válido abre um modal com mensagem contraditória: `Seu login está incorreto, quer continuar?`
+3. o botão de lupa da pesquisa não executa busca por clique
+4. ao remover todos os itens, a mensagem `Nenhum banco de dados encontrado` não reaparece
+5. o botão de refresh age como um `F5` e descarta a lista
 6. o botão de arquivar chama a mesma ação do botão de apagar
 7. item em branco pode ser criado depois de insistir no submit inválido
-8. após remover o último item, o estado vazio não volta a aparecer
-9. a rota `/easter-eggs` exposta publicamente lista bugs da aplicação
+8. a rota `Colmeia Forms` renderiza conteúdo vazio
+9. a autenticação ocorre no cliente, com credenciais expostas no bundle
+10. usuário não autenticado consegue acessar `/dashboard/campanha/bancos-de-dados`
+11. a rota `/easter-eggs` exposta publicamente lista bugs da aplicação
 
 ## Segurança de login e autenticação
 
@@ -105,6 +136,7 @@ cypress/
       auth-state.cy.js
     regression/
       easter-eggs.cy.js
+      easter-eggs-derived.cy.js
       critical-flows.cy.js
       known-defects.cy.js
   fixtures/
@@ -132,13 +164,29 @@ docs/
 - [cypress/support/commands.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/support/commands.js:1) centraliza comandos reutilizáveis
 - [cypress/fixtures/users.json](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/fixtures/users.json:1) isola a massa de teste
 - [cypress/fixtures/site-profile.json](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/fixtures/site-profile.json:1) isola rotas, seletores e textos de apoio
+- `regression/easter-eggs-derived` é a trilha principal dos defeitos
+- `regression/easter-eggs` valida a página que originou os cenários
 - `integration/` cobre formulário, estado e roteamento do front
-- `regression/critical-flows` cobre o que hoje permanece funcional
-- `regression/known-defects` evidencia a diferença entre comportamento esperado e comportamento obtido
+- `regression/critical-flows` cobre o comportamento que hoje permanece funcional
+- `regression/known-defects` ficou separado para achados complementares fora da lista do Easter Eggs
+- `evidence/` concentra capturas curadas para apresentação dos achados
 
 ## Suítes implementadas
 
-### Easter Eggs
+### Easter Eggs - cenários derivados principais
+
+Arquivo: [cypress/e2e/regression/easter-eggs-derived.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/regression/easter-eggs-derived.cy.js:1)
+
+- `Login`: `Esqueceu sua senha?` deveria ter ação útil
+- `Login`: login válido não deveria mostrar mensagem contraditória
+- `Banco de Dados`: a lupa deveria executar a busca
+- `Banco de Dados`: o estado vazio deveria reaparecer após excluir todos os itens
+- `Banco de Dados`: o refresh não deveria apagar a lista
+- `Banco de Dados`: arquivar não deveria excluir
+- `Banco de Dados`: item em branco não deveria ser persistido
+- `Colmeia Forms`: a página não deveria ficar em branco
+
+### Easter Eggs - origem das pistas
 
 Arquivo: [cypress/e2e/regression/easter-eggs.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/regression/easter-eggs.cy.js:1)
 
@@ -165,18 +213,18 @@ Arquivo: [cypress/e2e/regression/critical-flows.cy.js](/home/sm7f/Project/Portif
 - abertura da área de bancos de dados
 - acesso direto à página de easter eggs
 
-### Regressão para evidenciar defeitos
+### Defeitos complementares fora do Easter Eggs
 
 Arquivo: [cypress/e2e/regression/known-defects.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/regression/known-defects.cy.js:1)
 
-- bloqueio esperado de rota privada sem login
-- login válido sem mensagem incorreta
-- renderização esperada de `Colmeia Forms`
-- arquivamento sem exclusão
-- bloqueio de item em branco
-- retorno do estado vazio após exclusão total
+- dashboard não deveria abrir sem autenticação
+- a página interna `/easter-eggs` não deveria ficar pública
 
-Esses cenários foram escritos para falhar no estado atual da aplicação, justamente para evidenciar os bugs encontrados.
+### Evidências visuais curadas
+
+Arquivo: [cypress/e2e/evidence/important-evidence.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/evidence/important-evidence.cy.js:1)
+
+- gera capturas consistentes para login contraditório, dashboard sem autenticação, Easter Eggs pública e persistência de item vazio
 
 ## Alvo testado
 
@@ -188,10 +236,11 @@ https://teste-colmeia-qa.colmeia-corp.com/
 
 ```bash
 ./scripts/cypress-local.sh verify
-./scripts/cypress-local.sh run --config screenshotsFolder=docs/evidencias --spec 'cypress/e2e/regression/easter-eggs.cy.js'
-./scripts/cypress-local.sh run --config screenshotsFolder=docs/evidencias --spec 'cypress/e2e/evidence/important-evidence.cy.js'
+./scripts/cypress-local.sh run --config screenshotsFolder=docs/evidencias,trashAssetsBeforeRuns=false --spec 'cypress/e2e/regression/easter-eggs.cy.js'
+./scripts/cypress-local.sh run --spec 'cypress/e2e/regression/easter-eggs-derived.cy.js'
+./scripts/cypress-local.sh run --config screenshotsFolder=docs/evidencias,trashAssetsBeforeRuns=false --spec 'cypress/e2e/evidence/important-evidence.cy.js'
 ./scripts/cypress-local.sh run --spec 'cypress/e2e/integration/**/*.cy.js'
-./scripts/cypress-local.sh run --spec 'cypress/e2e/regression/critical-flows.cy.js'
+./scripts/cypress-local.sh run --spec 'cypress/e2e/regression/critical-flows.cy.js,cypress/e2e/regression/easter-eggs.cy.js'
 ./scripts/cypress-local.sh run --spec 'cypress/e2e/regression/known-defects.cy.js'
 ```
 
@@ -214,6 +263,7 @@ export PATH="$PWD/.tools/node-v24.14.1-linux-x64/bin:$PATH"
 npm install
 npx cypress open
 npm run test:easter-eggs
+npm run test:easter-eggs-derived
 npm run test:evidence
 npm run test:integration
 npm run test:regression
@@ -225,19 +275,25 @@ npm run test:defects
 - `npm install`: executado com sucesso
 - `./scripts/cypress-local.sh verify`: executado com sucesso
 - `test:easter-eggs`: `3/3` passando e `2` screenshots gerados em `docs/evidencias/easter-eggs.cy.js/`
+- `test:easter-eggs-derived`: `0/8` passando e `8/8` falhando como evidência dos defeitos listados na página
 - `test:evidence`: `4/4` passando e `4` screenshots gerados em `docs/evidencias/`
 - `./scripts/cypress-local.sh run --spec 'cypress/e2e/integration/auth-state.cy.js'`: `3/3` passando
 - `test:regression`: `7/7` passando
-- `test:defects`: `5/6` falhando como evidência de defeitos e `1/6` passando
+- `test:defects`: `0/2` passando e `2/2` falhando para os achados complementares fora do Easter Eggs
 
 Resumo de esperado vs. obtido:
 
+- esperado: `Esqueceu sua senha?` deveria acionar recuperação; obtido: o link não tem `href`
+- esperado: login válido deveria concluir sem erro; obtido: modal contraditório apareceu
+- esperado: a lupa deveria executar a busca; obtido: a lista não filtrou por clique
+- esperado: a lista vazia deveria reaparecer; obtido: a mensagem não voltou
+- esperado: o refresh não deveria descartar a lista; obtido: os itens sumiram
+- esperado: arquivar deveria preservar o item; obtido: o estado arquivado não apareceu
+- esperado: item em branco deveria ser bloqueado; obtido: a linha vazia foi persistida
+- esperado: `Colmeia Forms` deveria renderizar conteúdo; obtido: o componente ficou vazio
 - esperado: autenticação validada no servidor; obtido: comparação local de credenciais no bundle
 - esperado: rota privada exigir autenticação; obtido: dashboard abriu sem login
-- esperado: login válido concluir sem erro; obtido: modal contraditório apareceu
-- esperado: arquivar preservar item em área arquivada; obtido: estado esperado não apareceu
-- esperado: item em branco ser bloqueado; obtido: linha vazia foi persistida
-- esperado: lista vazia reaparecer após exclusão total; obtido: mensagem não voltou
+- esperado: página interna de bugs não deveria ser pública; obtido: `/easter-eggs` abriu diretamente
 
 ### Correção aplicada no runner
 
@@ -261,9 +317,10 @@ Com isso, o runner passou a verificar e executar normalmente em `Electron 138 (h
 - headers HTTP, que mostram hospedagem estática
 - ausência de `robots.txt` e `sitemap.xml`
 - screenshots curados em `docs/evidencias/`, vinculados a script e achado
+- screenshots automáticos das falhas derivadas em `cypress/screenshots/easter-eggs-derived.cy.js/`
 - screenshots de falha geradas em `cypress/screenshots/known-defects.cy.js/`
 
-## Evidências visuais
+## Evidências visuais curadas
 
 As capturas abaixo foram geradas pelo spec [cypress/e2e/evidence/important-evidence.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/evidence/important-evidence.cy.js:1), executado via `npm run test:evidence`.
 
@@ -294,14 +351,12 @@ As capturas abaixo foram geradas pelo spec [cypress/e2e/evidence/important-evide
 ### EV-04 Persistência de item em branco
 
 - Achado: o sistema persiste item vazio após tentativas repetidas de salvar
-- Script: [cypress/e2e/evidence/important-evidence.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/evidence/important-evidence.cy.js:29)
+- Script: [cypress/e2e/evidence/important-evidence.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/evidence/important-evidence.cy.js:31)
 - Screenshot: [item-em-branco-persistido.png](./docs/evidencias/important-evidence.cy.js/item-em-branco-persistido.png)
 
 ![EV-04 - Item em branco persistido](./docs/evidencias/important-evidence.cy.js/item-em-branco-persistido.png)
 
 ## Estratégia e cenários detalhados
-
-Esta seção consolida o conteúdo que estava em `docs/estrategia-e-cenarios.md`, para manter o projeto com um ponto único de leitura.
 
 ### Insumos analisados
 
@@ -332,141 +387,75 @@ Rotas identificadas:
 - `/dashboard/campanha/colmeia-forms`
 - `/easter-eggs`
 
-Elementos e fluxos principais:
-
-- login com `#email`, `#password` e botão `Entrar`
-- modal exibido após login válido
-- dashboard com menu lateral de campanha
-- módulo `Bancos de dados`
-- módulo `Colmeia Forms`
-
-Observações de superfície:
-
-- `robots.txt` retorna `NoSuchKey`
-- `sitemap.xml` retorna `NoSuchKey`
-- não foi identificado consumo claro de API no fluxo principal do front
-
 ### Estratégia adotada
 
-Automação dos testes:
+Separação adotada:
 
-- [cypress.config.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress.config.js:1) fixa o `baseUrl`, o suporte da suíte e os timeouts
-- [scripts/cypress-local.sh](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/scripts/cypress-local.sh:1) prepara o runtime local e corrige o runner do Cypress
-- [cypress/support/commands.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/support/commands.js:1) concentra comandos reutilizáveis, como login, seleção de campos e asserts comuns
-- [cypress/fixtures/users.json](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/fixtures/users.json:1) isola a massa de credenciais
-- [cypress/fixtures/site-profile.json](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/fixtures/site-profile.json:1) isola rotas, seletores e indicadores textuais
-
-Organização da suíte:
-
-- `integration/`: cenários que validam formulário, estado e roteamento do front
-- `regression/critical-flows`: fluxos que hoje precisam continuar funcionando
-- `regression/known-defects`: cenários intencionalmente escritos com expectativa de comportamento correto, para evidenciar regressão e defeito
-- `component/`: reservado para testes unitários quando o código-fonte dos componentes existir
-
-Testes unitários:
-
-- não implementados neste repositório porque o código-fonte original dos componentes não foi fornecido
-- o escopo recomendado está em [cypress/component/README.md](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/component/README.md:1)
-
-Testes de integração:
-
-- [cypress/e2e/integration/auth-state.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/integration/auth-state.cy.js:1)
-- objetivo: validar a integração entre formulário, validações e roteamento do front
-- cenários: login inválido, login válido com modal e acesso direto ao dashboard sem login
-
-Testes de regressão:
-
-- [cypress/e2e/regression/critical-flows.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/regression/critical-flows.cy.js:1)
-- [cypress/e2e/regression/known-defects.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/regression/known-defects.cy.js:1)
-- objetivos: proteger os fluxos mínimos que continuam funcionando e evidenciar defeitos reais
-
-### Falhas encontradas
-
-#### F-00 Autenticação client-side com credenciais expostas
-
-- evidência técnica: o bundle compara `qa@test.com` e `123456` diretamente no `onSubmit()`
-- impacto: qualquer pessoa com acesso ao front publicado consegue descobrir a “regra” de login
-
-#### F-01 Acesso indevido ao dashboard
-
-- evidência técnica: a rota `/dashboard/campanha/bancos-de-dados` está exposta sem qualquer guarda efetiva
-- impacto: quebra do controle básico de autenticação
-
-#### F-02 Login válido com mensagem de erro
-
-- evidência técnica: o handler de submit mostra modal com texto `Seu login está incorreto, quer continuar?`
-- impacto: contradição funcional no principal fluxo do sistema
-
-#### F-03 Módulo Colmeia Forms sem evidência funcional
-
-- evidência técnica: o componente associado no bundle não possui template funcional
-- observação: a assert E2E atual não falhou porque a shell do dashboard continua renderizando header e menu
-- impacto: funcionalidade sem comportamento útil identificado na exploração
-
-#### F-04 Arquivar e apagar usam a mesma ação
-
-- evidência técnica: os dois botões chamam `removeItem`
-- impacto: perda de distinção entre arquivar e excluir
-
-#### F-05 Inclusão de item em branco
-
-- evidência técnica: após insistir no submit inválido, o sistema persiste item vazio
-- impacto: quebra de validação de dados
-
-#### F-06 Estado vazio não reaparece
-
-- evidência técnica: após apagar o último item, a mensagem `Nenhum banco de dados encontrado` não volta
-- impacto: inconsistência de UX e regra visual
-
-#### F-07 Rota de easter eggs pública
-
-- evidência técnica: `/easter-eggs` lista bugs internos da aplicação
-- impacto: exposição desnecessária de informação interna
+- `Easter Eggs - origem`: valida a página que lista os bugs
+- `Easter Eggs - derivados`: transforma cada dica da página em um cenário automatizado
+- `Integração`: cobre login, estado e roteamento
+- `Regressão crítica`: cobre os fluxos que ainda funcionam
+- `Complementares`: cobre achados fora da lista do Easter Eggs
+- `Evidências`: gera capturas curadas para documentação
 
 ### Matriz de testes
 
 | ID | Tipo | Funcionalidade | Objetivo | Prioridade | Arquivo Cypress | Status |
 |----|------|----------------|----------|------------|-----------------|--------|
 | UT-01 | Unitário | Formulário de login | Validar renderização, estados e mensagens | Alta | `cypress/component/LoginForm.cy.jsx` | Bloqueado por ausência do código-fonte |
+| EE-OR-01 | Regressão | Easter Eggs | Validar rota pública, título e contexto | Alta | `cypress/e2e/regression/easter-eggs.cy.js` | Implementado |
+| EE-OR-02 | Regressão | Easter Eggs | Validar categorias e contagens | Alta | `cypress/e2e/regression/easter-eggs.cy.js` | Implementado |
+| EE-OR-03 | Regressão | Easter Eggs | Validar textos dos defeitos listados | Alta | `cypress/e2e/regression/easter-eggs.cy.js` | Implementado |
+| EE-DR-01 | Regressão | Login | `Esqueceu sua senha?` deveria funcionar | Alta | `cypress/e2e/regression/easter-eggs-derived.cy.js` | Implementado |
+| EE-DR-02 | Regressão | Login | Login válido sem mensagem contraditória | Alta | `cypress/e2e/regression/easter-eggs-derived.cy.js` | Implementado |
+| EE-DR-03 | Regressão | Banco de Dados | Lupa deveria executar busca | Alta | `cypress/e2e/regression/easter-eggs-derived.cy.js` | Implementado |
+| EE-DR-04 | Regressão | Banco de Dados | Estado vazio deveria reaparecer | Alta | `cypress/e2e/regression/easter-eggs-derived.cy.js` | Implementado |
+| EE-DR-05 | Regressão | Banco de Dados | Refresh não deveria apagar lista | Alta | `cypress/e2e/regression/easter-eggs-derived.cy.js` | Implementado |
+| EE-DR-06 | Regressão | Banco de Dados | Arquivar deveria diferir de apagar | Alta | `cypress/e2e/regression/easter-eggs-derived.cy.js` | Implementado |
+| EE-DR-07 | Regressão | Banco de Dados | Item vazio não deveria persistir | Alta | `cypress/e2e/regression/easter-eggs-derived.cy.js` | Implementado |
+| EE-DR-08 | Regressão | Colmeia Forms | Página deveria renderizar conteúdo | Alta | `cypress/e2e/regression/easter-eggs-derived.cy.js` | Implementado |
 | IT-01 | Integração | Login inválido | Garantir feedback visual correto no formulário | Alta | `cypress/e2e/integration/auth-state.cy.js` | Implementado |
 | IT-02 | Integração | Login válido | Validar transição login -> modal -> dashboard | Alta | `cypress/e2e/integration/auth-state.cy.js` | Implementado |
 | IT-03 | Integração | Acesso direto ao dashboard | Evidenciar ausência de proteção de rota | Alta | `cypress/e2e/integration/auth-state.cy.js` | Implementado |
 | RG-01 | Regressão | Tela de login | Garantir carga dos campos críticos | Alta | `cypress/e2e/regression/critical-flows.cy.js` | Implementado |
 | RG-02 | Regressão | Dashboard | Garantir abertura do módulo principal | Alta | `cypress/e2e/regression/critical-flows.cy.js` | Implementado |
 | RG-03 | Regressão | Easter Eggs | Confirmar exposição da rota pública | Média | `cypress/e2e/regression/critical-flows.cy.js` | Implementado |
-| RG-04 | Regressão | Controle de acesso | Esperar redirecionamento para login sem sessão | Alta | `cypress/e2e/regression/known-defects.cy.js` | Implementado |
-| RG-05 | Regressão | Login sem contradição | Esperar sucesso limpo no login válido | Alta | `cypress/e2e/regression/known-defects.cy.js` | Implementado |
-| RG-06 | Regressão | Colmeia Forms | Verificar se há conteúdo funcional útil no módulo | Alta | `cypress/e2e/regression/known-defects.cy.js` | Implementado |
-| RG-07 | Regressão | Arquivamento | Esperar arquivamento sem exclusão | Alta | `cypress/e2e/regression/known-defects.cy.js` | Implementado |
-| RG-08 | Regressão | Validação de item | Impedir cadastro em branco | Alta | `cypress/e2e/regression/known-defects.cy.js` | Implementado |
-| RG-09 | Regressão | Estado vazio | Reexibir lista vazia após exclusão total | Média | `cypress/e2e/regression/known-defects.cy.js` | Implementado |
+| OT-01 | Regressão | Controle de acesso | Esperar redirecionamento para login sem sessão | Alta | `cypress/e2e/regression/known-defects.cy.js` | Implementado |
+| OT-02 | Regressão | Exposição interna | Esperar bloqueio da rota `/easter-eggs` | Alta | `cypress/e2e/regression/known-defects.cy.js` | Implementado |
 
 ### Resultados esperados vs. obtidos
 
-#### Integração
+#### Easter Eggs - origem das pistas
 
 | ID | Arquivo | Cenário | Esperado | Obtido | Resultado |
 |----|---------|---------|----------|--------|-----------|
-| IT-01 | `auth-state.cy.js` | Login inválido | Campos marcados como inválidos e mensagem de erro visível | Mensagem `Usuário ou senha inválidos` exibida e campos `email` e `password` marcados como inválidos | Passou |
-| IT-02 | `auth-state.cy.js` | Login válido | Navegação controlada até o dashboard | Modal intermediário exibido, clique em `Continuar` leva para `/dashboard` | Passou |
-| IT-03 | `auth-state.cy.js` | Acesso direto ao dashboard | O sistema atual expor a rota foi tratado como comportamento observável a ser validado | `/dashboard/campanha/bancos-de-dados` abriu sem autenticação | Passou |
+| EE-OR-01 | `easter-eggs.cy.js` | Página pública com contexto | Rota `/easter-eggs`, título e mensagem introdutória visíveis | Página renderizou corretamente | Passou |
+| EE-OR-02 | `easter-eggs.cy.js` | Categorias e contagens | `Login`, `Banco de Dados`, `Colmeia Forms` com contagens `2`, `5` e `1` | Estrutura exibida conforme esperado | Passou |
+| EE-OR-03 | `easter-eggs.cy.js` | Textos dos defeitos | Lista interna de defeitos renderizada na página | Textos listados visíveis | Passou |
 
-#### Regressão crítica
+#### Easter Eggs - cenários derivados principais
 
 | ID | Arquivo | Cenário | Esperado | Obtido | Resultado |
 |----|---------|---------|----------|--------|-----------|
+| EE-DR-01 | `easter-eggs-derived.cy.js` | `Esqueceu sua senha?` | Link acionável ou navegável | Elemento não possui `href` | Falhou |
+| EE-DR-02 | `easter-eggs-derived.cy.js` | Login válido sem contradição | Login válido não deveria mostrar erro | Modal contraditório apareceu | Falhou |
+| EE-DR-03 | `easter-eggs-derived.cy.js` | Busca pela lupa | Clique da lupa deveria aplicar filtro | Item `Beta` continuou visível | Falhou |
+| EE-DR-04 | `easter-eggs-derived.cy.js` | Retorno do estado vazio | Mensagem de vazio deveria reaparecer | Mensagem não voltou | Falhou |
+| EE-DR-05 | `easter-eggs-derived.cy.js` | Refresh da lista | Item criado deveria permanecer | Item sumiu após refresh | Falhou |
+| EE-DR-06 | `easter-eggs-derived.cy.js` | Arquivamento | Item deveria aparecer como arquivado | Estado arquivado não apareceu | Falhou |
+| EE-DR-07 | `easter-eggs-derived.cy.js` | Item em branco | Linha vazia não deveria ser persistida | Célula vazia foi encontrada | Falhou |
+| EE-DR-08 | `easter-eggs-derived.cy.js` | Colmeia Forms | Conteúdo funcional deveria existir | Componente da rota ficou vazio | Falhou |
+
+#### Outros testes separados
+
+| ID | Arquivo | Cenário | Esperado | Obtido | Resultado |
+|----|---------|---------|----------|--------|-----------|
+| IT-01 | `auth-state.cy.js` | Login inválido | Campos inválidos e erro visível | Mensagem `Usuário ou senha inválidos` exibida | Passou |
+| IT-02 | `auth-state.cy.js` | Login válido com modal atual | Navegação até `/dashboard` após `Continuar` | Fluxo atual completou | Passou |
+| IT-03 | `auth-state.cy.js` | Acesso direto ao dashboard | Comportamento atual da rota pública validado | Dashboard abriu sem autenticação | Passou |
 | RG-01 | `critical-flows.cy.js` | Tela de login | Campos principais renderizados | Tela carregou com email, senha e CTA | Passou |
-| RG-02 | `critical-flows.cy.js` | Login válido até dashboard | Usuário chega ao dashboard após concluir o fluxo atual | Fluxo atual completou com modal e acesso ao dashboard | Passou |
-| RG-03 | `critical-flows.cy.js` | Abertura de Bancos de dados | Módulo principal acessível | Página abriu com busca e botão `Criar` | Passou |
-| RG-04 | `critical-flows.cy.js` | Rota Easter Eggs | Rota pública acessível conforme implementação atual | Conteúdo da página foi exibido | Passou |
-
-#### Defeitos evidenciados
-
-| ID | Arquivo | Cenário | Esperado | Obtido | Resultado |
-|----|---------|---------|----------|--------|-----------|
-| DF-01 | `known-defects.cy.js` | Proteção de rota | Usuário sem sessão deve voltar para `/` | Permaneceu em `/dashboard/campanha/bancos-de-dados` | Falhou |
-| DF-02 | `known-defects.cy.js` | Login válido sem erro | Login válido não deve mostrar mensagem contraditória | Modal `Seu login está incorreto, quer continuar?` apareceu | Falhou |
-| DF-03 | `known-defects.cy.js` | Colmeia Forms com conteúdo útil | Esperava-se conteúdo funcional identificável | A shell do dashboard continuou renderizando, sem evidenciar falha pela assert atual | Passou |
-| DF-04 | `known-defects.cy.js` | Arquivamento | Item arquivado deve aparecer na área arquivada, sem exclusão | Item não apareceu como arquivado e o estado esperado não foi encontrado | Falhou |
-| DF-05 | `known-defects.cy.js` | Bloqueio de item em branco | Nenhuma linha vazia deve ser persistida | Célula vazia foi encontrada após insistência | Falhou |
-| DF-06 | `known-defects.cy.js` | Retorno do estado vazio | Mensagem de lista vazia deve reaparecer | Mensagem `Nenhum banco de dados encontrado` não reapareceu | Falhou |
+| RG-02 | `critical-flows.cy.js` | Dashboard atual | Usuário chega ao dashboard no fluxo atual | Fluxo completou com modal e acesso | Passou |
+| RG-03 | `critical-flows.cy.js` | Bancos de Dados | Página principal acessível | Busca e botão `Criar` renderizados | Passou |
+| RG-04 | `critical-flows.cy.js` | Easter Eggs pública | Conteúdo da rota pública visível | Página exibida | Passou |
+| OT-01 | `known-defects.cy.js` | Dashboard sem login | Redirecionamento para `/` | Permaneceu em `/dashboard/campanha/bancos-de-dados` | Falhou |
+| OT-02 | `known-defects.cy.js` | Easter Eggs não pública | Redirecionamento para `/` | Permaneceu em `/easter-eggs` | Falhou |

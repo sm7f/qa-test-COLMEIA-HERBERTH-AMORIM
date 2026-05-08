@@ -8,6 +8,7 @@
     "cy:verify": "./scripts/cypress-local.sh verify",
     "cy:run": "./scripts/cypress-local.sh run",
     "test:easter-eggs": "./scripts/cypress-local.sh run --config screenshotsFolder=docs/evidencias,trashAssetsBeforeRuns=false --spec 'cypress/e2e/regression/easter-eggs.cy.js'",
+    "test:easter-eggs-derived": "./scripts/cypress-local.sh run --spec 'cypress/e2e/regression/easter-eggs-derived.cy.js'",
     "test:evidence": "./scripts/cypress-local.sh run --config screenshotsFolder=docs/evidencias,trashAssetsBeforeRuns=false --spec 'cypress/e2e/evidence/important-evidence.cy.js'",
     "test:integration": "./scripts/cypress-local.sh run --spec 'cypress/e2e/integration/**/*.cy.js'",
     "test:regression": "./scripts/cypress-local.sh run --spec 'cypress/e2e/regression/critical-flows.cy.js,cypress/e2e/regression/easter-eggs.cy.js'",
