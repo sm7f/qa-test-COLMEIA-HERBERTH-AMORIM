@@ -8,9 +8,8 @@ module.exports = defineConfig({
   screenshotsFolder: "cypress/screenshots",
   videosFolder: "cypress/videos",
   e2e: {
-    baseUrl: process.env.CYPRESS_baseUrl || "https://example.invalid",
+    baseUrl: process.env.CYPRESS_baseUrl || "https://teste-colmeia-qa.colmeia-corp.com",
     specPattern: "cypress/e2e/**/*.cy.js",
     supportFile: "cypress/support/e2e.js"
   }
 });
-

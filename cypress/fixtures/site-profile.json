@@ -1,7 +1,7 @@
 {
   "routes": {
     "login": "/",
-    "postLoginPattern": null
+    "postLoginPattern": "/dashboard"
   },
   "selectors": {
     "email": [
@@ -32,13 +32,12 @@
       "acessar"
     ],
     "successIndicators": [
-      "dashboard",
-      "painel",
-      "minha conta",
-      "sair",
-      "logout"
+      "colmeia",
+      "bancos de dados",
+      "campanha"
     ],
     "errorIndicators": [
+      "usuário ou senha inválidos",
       "invalida",
       "invalid",
       "incorreta",
@@ -48,4 +47,3 @@
     ]
   }
 }
-

@@ -1,6 +1,6 @@
 # Cypress Component Testing
 
-Os testes unitarios nao foram implementados neste repositorio porque o codigo-fonte da aplicacao e o framework utilizado nao foram fornecidos.
+Os testes unitarios nao foram implementados neste repositorio porque o codigo-fonte da aplicacao nao foi fornecido. O alvo entregue para o teste foi apenas a URL publicada.
 
 Assim que o projeto alvo estiver disponivel, criar pelo menos:
 
@@ -15,4 +15,3 @@ Prioridades:
 - estados de loading
 - validacao local
 - mensagens de erro
-

@@ -1,3 +1,5 @@
+
+Link do teste: https://teste-colmeia-qa.colmeia-corp.com/
 email: qa@test.com
 senha: 123456
 
