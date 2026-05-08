@@ -1,0 +1,14 @@
+{
+  "name": "qa-test-cypress-suite",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Suite Cypress parametrizada para o teste tecnico de QA.",
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "test:integration": "cypress run --spec 'cypress/e2e/integration/**/*.cy.js'",
+    "test:regression": "cypress run --spec 'cypress/e2e/regression/**/*.cy.js'",
+    "test:all": "cypress run --spec 'cypress/e2e/**/*.cy.js'"
+  }
+}
+

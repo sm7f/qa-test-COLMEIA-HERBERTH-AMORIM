@@ -1,0 +1,15 @@
+{
+  "unauthorized": {
+    "statusCode": 401,
+    "body": {
+      "message": "Credenciais invalidas"
+    }
+  },
+  "serverError": {
+    "statusCode": 500,
+    "body": {
+      "message": "Erro interno do servidor"
+    }
+  }
+}
+

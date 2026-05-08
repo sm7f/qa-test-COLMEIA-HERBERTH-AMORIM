@@ -1,0 +1,51 @@
+{
+  "routes": {
+    "login": "/",
+    "postLoginPattern": null
+  },
+  "selectors": {
+    "email": [
+      "[data-testid='email']",
+      "[data-cy='email']",
+      "input[name='email']",
+      "input[type='email']",
+      "input[placeholder*='mail' i]"
+    ],
+    "password": [
+      "[data-testid='password']",
+      "[data-cy='password']",
+      "input[name='password']",
+      "input[type='password']",
+      "input[placeholder*='senha' i]"
+    ],
+    "submit": [
+      "[data-testid='submit-login']",
+      "[data-cy='submit-login']",
+      "button[type='submit']",
+      "input[type='submit']"
+    ]
+  },
+  "content": {
+    "loginHeading": [
+      "login",
+      "entrar",
+      "acessar"
+    ],
+    "successIndicators": [
+      "dashboard",
+      "painel",
+      "minha conta",
+      "sair",
+      "logout"
+    ],
+    "errorIndicators": [
+      "invalida",
+      "invalid",
+      "incorreta",
+      "incorrect",
+      "erro",
+      "falhou"
+    ]
+  }
+}
+
