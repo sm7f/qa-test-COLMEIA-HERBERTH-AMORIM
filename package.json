@@ -7,6 +7,7 @@
     "cy:open": "./scripts/cypress-local.sh open",
     "cy:verify": "./scripts/cypress-local.sh verify",
     "cy:run": "./scripts/cypress-local.sh run",
+    "test:evidence": "./scripts/cypress-local.sh run --config screenshotsFolder=docs/evidencias --spec 'cypress/e2e/evidence/important-evidence.cy.js'",
     "test:integration": "./scripts/cypress-local.sh run --spec 'cypress/e2e/integration/**/*.cy.js'",
     "test:regression": "./scripts/cypress-local.sh run --spec 'cypress/e2e/regression/critical-flows.cy.js'",
     "test:defects": "./scripts/cypress-local.sh run --spec 'cypress/e2e/regression/known-defects.cy.js'",

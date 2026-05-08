@@ -1,6 +1,6 @@
 # Suíte Cypress - Colmeia QA
 
-Suite criada para o teste técnico descrito em [siteteste.md](./siteteste.md), com estratégia guiada por [agt-cypress.md](./agt-cypress.md) e exploração controlada do alvo real `https://teste-colmeia-qa.colmeia-corp.com/`.
+Suíte criada com base nos insumos iniciais do desafio e exploração controlada do alvo real `https://teste-colmeia-qa.colmeia-corp.com/`.
 
 ## Resumo da entrega
 
@@ -62,6 +62,8 @@ cypress/
   component/
     README.md
   e2e/
+    evidence/
+      important-evidence.cy.js
     integration/
       auth-state.cy.js
     regression/
@@ -74,6 +76,12 @@ cypress/
     commands.js
     e2e.js
 docs/
+  evidencias/
+    important-evidence.cy.js/
+      dashboard-sem-autenticacao.png
+      login-valido-modal-contraditorio.png
+      rota-publica-easter-eggs.png
+      item-em-branco-persistido.png
   estrategia-e-cenarios.md
 ```
 
@@ -129,6 +137,7 @@ https://teste-colmeia-qa.colmeia-corp.com/
 
 ```bash
 ./scripts/cypress-local.sh verify
+./scripts/cypress-local.sh run --config screenshotsFolder=docs/evidencias --spec 'cypress/e2e/evidence/important-evidence.cy.js'
 ./scripts/cypress-local.sh run --spec 'cypress/e2e/integration/**/*.cy.js'
 ./scripts/cypress-local.sh run --spec 'cypress/e2e/regression/critical-flows.cy.js'
 ./scripts/cypress-local.sh run --spec 'cypress/e2e/regression/known-defects.cy.js'
@@ -152,6 +161,7 @@ Foi preparado um runtime local de Node no próprio diretório para viabilizar a 
 export PATH="$PWD/.tools/node-v24.14.1-linux-x64/bin:$PATH"
 npm install
 npx cypress open
+npm run test:evidence
 npm run test:integration
 npm run test:regression
 npm run test:defects
@@ -161,6 +171,7 @@ npm run test:defects
 
 - `npm install`: executado com sucesso
 - `./scripts/cypress-local.sh verify`: executado com sucesso
+- `test:evidence`: `4/4` passando e `4` screenshots gerados em `docs/evidencias/`
 - `./scripts/cypress-local.sh run --spec 'cypress/e2e/integration/auth-state.cy.js'`: `3/3` passando
 - `test:regression`: `4/4` passando
 - `test:defects`: `5/6` falhando como evidência de defeitos e `1/6` passando
@@ -195,7 +206,44 @@ Com isso, o runner passou a verificar e executar normalmente em `Electron 138 (h
 - bundle `main-OLCR3OTF.js`, que expõe rotas, validações e handlers
 - headers HTTP, que mostram hospedagem estática
 - ausência de `robots.txt` e `sitemap.xml`
+- screenshots curados em `docs/evidencias/`, vinculados a script e achado
 - screenshots de falha geradas em `cypress/screenshots/known-defects.cy.js/`
+
+## Evidências visuais
+
+As capturas abaixo foram geradas pelo spec [cypress/e2e/evidence/important-evidence.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/evidence/important-evidence.cy.js:1), executado via `npm run test:evidence`.
+
+### EV-01 Dashboard acessível sem autenticação
+
+- Achado: usuário não autenticado acessa `/dashboard/campanha/bancos-de-dados`
+- Script: [cypress/e2e/evidence/important-evidence.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/evidence/important-evidence.cy.js:7)
+- Screenshot: [dashboard-sem-autenticacao.png](./docs/evidencias/important-evidence.cy.js/dashboard-sem-autenticacao.png)
+
+![EV-01 - Dashboard sem autenticação](./docs/evidencias/important-evidence.cy.js/dashboard-sem-autenticacao.png)
+
+### EV-02 Login válido com modal contraditório
+
+- Achado: login válido exibe `Seu login está incorreto, quer continuar?`
+- Script: [cypress/e2e/evidence/important-evidence.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/evidence/important-evidence.cy.js:14)
+- Screenshot: [login-valido-modal-contraditorio.png](./docs/evidencias/important-evidence.cy.js/login-valido-modal-contraditorio.png)
+
+![EV-02 - Modal contraditório](./docs/evidencias/important-evidence.cy.js/login-valido-modal-contraditorio.png)
+
+### EV-03 Rota pública de Easter Eggs
+
+- Achado: `/easter-eggs` está acessível publicamente e expõe conteúdo interno
+- Script: [cypress/e2e/evidence/important-evidence.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/evidence/important-evidence.cy.js:23)
+- Screenshot: [rota-publica-easter-eggs.png](./docs/evidencias/important-evidence.cy.js/rota-publica-easter-eggs.png)
+
+![EV-03 - Easter Eggs pública](./docs/evidencias/important-evidence.cy.js/rota-publica-easter-eggs.png)
+
+### EV-04 Persistência de item em branco
+
+- Achado: o sistema persiste item vazio após tentativas repetidas de salvar
+- Script: [cypress/e2e/evidence/important-evidence.cy.js](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/cypress/e2e/evidence/important-evidence.cy.js:29)
+- Screenshot: [item-em-branco-persistido.png](./docs/evidencias/important-evidence.cy.js/item-em-branco-persistido.png)
+
+![EV-04 - Item em branco persistido](./docs/evidencias/important-evidence.cy.js/item-em-branco-persistido.png)
 
 ## Estratégia e cenários detalhados
 
@@ -203,9 +251,7 @@ Esta seção consolida o conteúdo que estava em `docs/estrategia-e-cenarios.md`
 
 ### Insumos analisados
 
-- [agt-cypress.md](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/agt-cypress.md:1)
-- [agt-cybersecurity.md](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/agt-cybersecurity.md:1)
-- [siteteste.md](/home/sm7f/Project/Portifolio/Portifolio-Agente/Projetos/qa-test/siteteste.md:1)
+- instruções privadas do desafio usadas apenas como referência local
 - alvo real: `https://teste-colmeia-qa.colmeia-corp.com/`
 
 ### Mapeamento técnico do alvo

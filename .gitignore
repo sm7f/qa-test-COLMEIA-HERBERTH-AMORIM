@@ -3,3 +3,5 @@ node_modules/
 .tools/
 cypress/screenshots/
 cypress/videos/
+agt-*.md
+siteteste.md
